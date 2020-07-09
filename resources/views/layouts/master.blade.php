@@ -90,10 +90,18 @@
   <script src="{{asset('sbadmin2/js/sb-admin-2.min.js')}}"></script>
 
   <!-- script tambahan sweet alert, bukan dari bawaan sb-admin-2 -->
+  
+  <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+  <script>
+    var options = {
+      filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+      filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+      filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+    };
+  </script>
+  @include('sweetalert::alert')
   @stack('scripts')
-
-  <script src="{{asset('sbadmin2/js/swal.min.js')}}"></script>
-
 </body>
 
 </html>
