@@ -15,7 +15,12 @@ class CreateBestAnswersTable extends Migration
     {
         Schema::create('best_answers', function (Blueprint $table) {
             $table->id();
+            $table->string('question_id');
+            $table->string('answer_id');
             $table->timestamps();
+
+            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('answer_id')->references('id')->on('answers');
         });
     }
 

@@ -14,7 +14,7 @@ class CreateQuestionsTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->string('id');
             $table->string('title');
             $table->text('content');
             $table->string('tag');
@@ -22,6 +22,7 @@ class CreateQuestionsTable extends Migration
             $table->datetime('updated_at');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->primary('id');
         });
     }
 
