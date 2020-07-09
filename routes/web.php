@@ -18,19 +18,28 @@ Route::get('/', 'HomeController@redirect');
 Route::group(['middleware' => 'auth'], function(){
 	Route::get('/stacloverload','StackController@index')->name('dashboard');
 
-	Route::get('/stacloverload/create','QuestionController@create')->name('createquest');
-	Route::post('/stacloverload','QuestionController@store')->name('savequest');
+	// question
+	Route::get('/stacloverload/quest','QuestionController@index')->name('createquest');
+	Route::post('/stacloverload/quest','QuestionController@store')->name('savequest');
 
-	Route::get('/detail/{question_id}','QuestionController@index')->name('detail');
-	Route::get('/detail/{question_id}/questedit','QuestionController@edit')->name('editquest');
-	Route::put('/detail/{question_id}/questedit','QuestionController@update')->name('updatequest');
-	Route::delete('/detail/{question_id}question','QuestionController@destroy')->name('deletequest');
+	// detail question
+	Route::get('/detail/{id}','QuestionController@detail')->name('detail'); // Vote disini
+	Route::get('/detail/{id}/editquest','QuestionController@edit')->name('editquest');
+	Route::put('/detail/{id}/editquest','QuestionController@update')->name('updatequest');
+	Route::delete('/detail/{id}/deletequest','QuestionController@destroy')->name('deletequest');
 
-	Route::post('/detail/{question_id}','AnswerController@store')->name('saveanswer');
-	Route::get('/detail/{question_id}/ansedit','AnswerController@edit')->name('editanswer');
-	Route::put('/detail/{question_id}/ansedit','AnswerController@update')->name('updateanswer');
-	Route::delete('/detail/{question_id}answer','AnswerController@destroy')->name('deleteanswer');
+	// answer
+	Route::get('/detail/{id}/answer','AnswerController@index')->name('createanswer');
+	Route::post('/detail/{id}/answer','AnswerController@store')->name('saveanswer');
+	Route::get('/detail/{id}/editanswer','AnswerController@edit')->name('editanswer');
+	Route::put('/detail/{id}/editanswer','AnswerController@update')->name('updateanswer');
+	Route::delete('/detail/{id}/deleteanswer','AnswerController@destroy')->name('deleteanswer');
 
+	// comment
+	Route::post('/detail/{id}','CommentController@store')->name('savecomment');
+	// Route::get('/detail/{id}/editcomment','CommentController@store')->name('editcomment');
+	// Route::put('/detail/{id}/editcomment','CommentController@store')->name('updatecomment');
+	// Route::delete('/detail/{id}/deletecomment','CommentController@destroy')->name('deletecomment');
 });
 
 Auth::routes();
