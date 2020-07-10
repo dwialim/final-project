@@ -10,12 +10,12 @@ class StackController extends Controller
 {
     public function index(){
         $data = QuestionModel::get_all();
-        //return view('content.index', compact('data'));
-        $tags = array();
-        foreach($data as $item => $row){
-            $iki = explode(" ",$row->tag);
-            // $tags = array_push($tags, );
-        }
-        dd($iki);
+        return view('content.index', compact('data'));
+        // $tags = array();
+        // foreach($data as $item => $row){
+        //     $iki = explode(" ",$row->tag);
+        //     // $tags = array_push($tags, );
+        // }
+        // dd($iki);
     }
 }
