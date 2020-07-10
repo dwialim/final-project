@@ -36,18 +36,18 @@
                     {{$row->title}}
                   </a>
                     @if (Auth::id()==$row->user_id)
-                    <a href="detail/{{$row->id}}" class="btn btn-warning btn-circle btn-sm">
+                    <button onclick="EDIT('{{ $row->id }}')" class="btn btn-warning btn-circle btn-sm">
                       <i class="fas  fa-edit"></i>
-                    </a>
-                    <form action="/stacloverload/{{$row->id}}" method="POST" style="display: inline">
+                    </button>
+                    <form action="/stacloverload/quest/{{$row->id}}" method="POST" style="display: inline">
                       @csrf
                       @method('DELETE')
                       <button type="submit" class="btn btn-danger btn-circle btn-sm" onclick="return confirm('Delete ?')"><i class="fas fa-trash"></i> </button>
-                      </form>
+                    </form>
                     @endif
                     
                   <br>
-                  {!!$row->content!!}<br>
+                  {!!\Illuminate\Support\Str::words($row->content, $words = 50, $end = ' [...] ')!!}<br>
                   <?PHP
                     $tags = explode(" ",$row->tag);
                     foreach ($tags as $tag) {
@@ -61,7 +61,7 @@
                
             <tbody>
           </table>
-          <nav aria-label="Page navigation example">
+          {{-- <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end" style="margin-right: 20px!important;">
               <li class="page-item"><a class="page-link" href="#">Previous</a></li>
               <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -69,7 +69,8 @@
               <li class="page-item"><a class="page-link" href="#">3</a></li>
               <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
-          </nav>
+          </nav> --}}
+          {{$data->links()}}
         </div>
       </div>
     </div>
@@ -79,7 +80,7 @@
 <!-- /.container-fluid -->
 <div class="modal fade" id="MODAL_QUESTION">
   <div class="modal-dialog" style="min-width: 900px;">
-    <form action="/stacloverload/quest" method="post">
+    <form  method="post" id="frmEdit">
       @csrf
       <div class="modal-content">
         <div class="modal-header">
@@ -123,8 +124,30 @@
   CKEDITOR.replace('contents');
   $(function(){
     $("#btn_question").click(function(){
+      $(".modal-title").text('Add Question');
+      $("#frmEdit").attr('action','/stacloverload/quest/');
       $("#MODAL_QUESTION").modal('show');
     });
+    
   });
+
+  function EDIT($id){
+    $.ajax({
+      url: '/stacloverload/quest/'+$id,
+      tye: 'GET',
+      success: function(data){
+        data = $.parseJSON(data);
+        console.log(data);
+        $("[name='title']").val(data['title']);
+        // $("[name='content']").val(data['content']);
+        CKEDITOR.instances['contents'].setData(data['content']);
+        $("[name='tag']").val(data['tag']);
+        $("#MODAL_QUESTION").modal('show');
+        $(".modal-title").text('Edit Question');
+        $("#frmEdit").attr('action','/stacloverload/quest/'+$id);
+      }
+    })
+  }
+
 </script>
 @endpush

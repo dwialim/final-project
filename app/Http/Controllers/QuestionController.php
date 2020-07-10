@@ -10,9 +10,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class QuestionController extends Controller
 {
-	public function detail($id){
-		// 
-	}
 
     public function index(){
         $data = QuestionModel::get_all();
@@ -36,16 +33,35 @@ class QuestionController extends Controller
 
     }
 
-    public function edit($id){
-    	// 
+    public function delete_data($id){
+    	$data = QuestionModel::delete_data($id);
+        if($data){
+            Alert::success('Your Question Has Been Deleted', 'Success');
+            return redirect('/stacloverload');
+        }else{
+            Alert::error('Error Deleting', 'Error');
+            return redirect('/stacloverload');
+        }
     }
 
-    public function update(Request $request, $id){
-    	// 
+    public function get_by_id($id){
+        $data = QuestionModel::get_by_id($id);
+
+        return json_encode($data);
     }
 
-    public function destroy($id){
-    	// 
-        return redirect('detail/'.$id);
+    public function update( $id, Request $request){
+    	$request->request->add(["updated_at"=> Carbon::now()]);
+        $params = $request->all();
+        $data = QuestionModel::update_data($id, $params);
+        if($data){
+            Alert::success('Your Question Has Been Updated', 'Success');
+            return redirect('/stacloverload');
+        }else{
+            Alert::error('Error Updating', 'Error');
+            return redirect('/stacloverload');
+        }
     }
+
+    
 }

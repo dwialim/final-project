@@ -13,6 +13,13 @@ class QuestionModel{
         return $data;
     }
 
+    public static function get_by_id($id){
+        $data = DB::table('questions')
+                ->where('id',$id)
+                ->first();
+        return $data;
+    }
+
     public static function save_data($params){
         $code = "Q".date('ymd');
         $id = DB::table('questions')
@@ -31,6 +38,26 @@ class QuestionModel{
         $params = $params + ['id' => $NEW_CODE];
         //dd($params + ['id' => $NEW_CODE]);
         $data = DB::table('questions')->insert($params);
+        return $data;
+    }
+
+    public static function update_data($id, $params){
+        $data = DB::table('questions')
+                ->where('id',$id)
+                ->update([
+                    'title' => $params['title'],
+                    'content' => $params['content'],
+                    'tag' => $params['tag'],
+                    'updated_at' => $params['updated_at']
+                ]);
+        
+        return $data;
+    }
+
+    public static function delete_data($id){
+        $data = DB::table('questions')
+                    ->where('id', $id)
+                    ->delete();
         return $data;
     }
 }

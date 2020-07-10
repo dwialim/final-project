@@ -21,6 +21,9 @@ Route::group(['middleware' => 'auth'], function(){
 	// question
 	Route::get('/stacloverload/quest','QuestionController@index')->name('createquest');
 	Route::post('/stacloverload/quest','QuestionController@store')->name('savequest');
+	Route::delete('/stacloverload/quest/{id}','QuestionController@delete_data');
+	Route::get('/stacloverload/quest/{id}','QuestionController@get_by_id')->name('getquestbyid');
+	Route::post('/stacloverload/quest/{id}','QuestionController@update')->name('updatequest');
 
 	// detail question
 	Route::get('/detail/{id}','QuestionController@detail')->name('detail'); // Vote disini
