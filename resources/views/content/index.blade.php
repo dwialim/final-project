@@ -26,29 +26,23 @@
         <div class="card-body">
           <table class="table table-striped" style="font-size: 14px">
             <tbody>
+              @foreach ($data as $item => $row)
               <tr>
                 <td class="text-center">
                   0 <br>Votes<br> 0 <br>Answer
                 </td>
                 <td >
-                  <a href="#" style="font-size: 16px;font-weight: 600!important;">Judul how can i compare aws lambda to regular function</a><br>
-                  Isi What is AWS lambda function, can any one give a simple example just be able to compare it with regular function in javascript I tried to read documentation but it little bit confused me<br>
+                  <a href="/detail/{{$row->id}}" style="font-size: 16px;font-weight: 600!important;">
+                    {{$row->title}}
+                  </a><br>
+                  {{$row->title}}<br>
+                  
                   <button class="btn btn-sm btn-info">PHP</button>
                   <button class="btn btn-sm btn-info">MySQL</button>
                 </td>
-              </tr>  
-              <tr>
-                <td class="text-center">
-                  0 <br>Votes<br> 0 <br>Answer
-                </td>
-                <td >
-                  <a href="#" style="font-size: 16px;font-weight: 600!important;">Judul how can i compare aws lambda to regular function</a><br>
-                  <p>Aditia on May 30, 2020</p>
-                  Isi What is AWS lambda function, can any one give a simple example just be able to compare it with regular function in javascript I tried to read documentation but it little bit confused me<br>
-                  <button class="btn btn-sm btn-info">PHP</button>
-                  <button class="btn btn-sm btn-info">MySQL</button>
-                </td>
-              </tr>  
+              </tr>
+              @endforeach
+               
             <tbody>
           </table>
           <nav aria-label="Page navigation example">
@@ -69,7 +63,7 @@
 <!-- /.container-fluid -->
 <div class="modal fade" id="MODAL_QUESTION">
   <div class="modal-dialog" style="min-width: 900px;">
-    <form action="#" method="post">
+    <form action="/stacloverload/quest" method="post">
       @csrf
       <div class="modal-content">
         <div class="modal-header">
@@ -82,12 +76,12 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label>JUDUL</label>
-                <input type="text" class="form-control" name="judul">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title">
               </div>
               <div class="form-group">
-                <label>ISI</label>
-                <textarea class="form-control" name="isi" id="isi" rows="4"></textarea>
+                <label>Content</label>
+                <textarea class="form-control" name="content" id="contents" rows="4"></textarea>
               </div>
               <div class="form-group">
                 <label>TAGS</label>
@@ -110,13 +104,7 @@
 @push('scripts')
 
 <script>
-  // Swal.fire({
-  //   title: 'Berhasil!',
-  //   text: 'Memasangkan script sweet alert',
-  //   icon: 'success',
-  //   confirmButtonText: 'Cool'
-  // });
-  CKEDITOR.replace('isi');
+  CKEDITOR.replace('contents');
   $(function(){
     $("#btn_question").click(function(){
       $("#MODAL_QUESTION").modal('show');
