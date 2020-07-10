@@ -36,7 +36,7 @@
                     {{$row->title}}
                   </a>
                     @if (Auth::id()==$row->user_id)
-                    <a href="#" class="btn btn-warning btn-circle btn-sm">
+                    <a href="detail/{{$row->id}}" class="btn btn-warning btn-circle btn-sm">
                       <i class="fas  fa-edit"></i>
                     </a>
                     <form action="/stacloverload/{{$row->id}}" method="POST" style="display: inline">
