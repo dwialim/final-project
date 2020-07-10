@@ -29,16 +29,32 @@
               @foreach ($data as $item => $row)
               <tr>
                 <td class="text-center">
-                  0 <br>Votes<br> 0 <br>Answer
+                  {{$row->votes}} <br>Votes<br> {{$row->answers}} <br>Answer
                 </td>
                 <td >
                   <a href="/detail/{{$row->id}}" style="font-size: 16px;font-weight: 600!important;">
                     {{$row->title}}
-                  </a><br>
-                  {{$row->title}}<br>
+                  </a>
+                    @if (Auth::id()==$row->user_id)
+                    <a href="#" class="btn btn-warning btn-circle btn-sm">
+                      <i class="fas  fa-edit"></i>
+                    </a>
+                    <form action="/stacloverload/{{$row->id}}" method="POST" style="display: inline">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger btn-circle btn-sm" onclick="return confirm('Delete ?')"><i class="fas fa-trash"></i> </button>
+                      </form>
+                    @endif
+                    
+                  <br>
+                  {!!$row->content!!}<br>
+                  <?PHP
+                    $tags = explode(" ",$row->tag);
+                    foreach ($tags as $tag) {
+                      echo '<button style="    margin-right: 5px;" class="btn btn-sm btn-info">'.$tag.'</button>';
+                    }
+                  ?>
                   
-                  <button class="btn btn-sm btn-info">PHP</button>
-                  <button class="btn btn-sm btn-info">MySQL</button>
                 </td>
               </tr>
               @endforeach

@@ -5,7 +5,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 class QuestionModel{
     public static function get_all(){
-        $data = DB::table('questions')->paginate(10);
+        $data = DB::table('questions as A')
+                ->select(DB::raw("A.id, A.title, A.content, A.tag, A.user_id, 
+                (SELECT count(*) FROM votes WHERE parent_id=A.id AND votes='upvote') votes,
+                (SELECT count(*) FROM answers WHERE question_id=A.id) answers"))
+                ->paginate(10);
         return $data;
     }
 
