@@ -18,8 +18,8 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('tag');
-            $table->datetime('created_at');
-            $table->datetime('updated_at');
+            $table->datetime('created_at')->nullable();
+            $table->datetime('updated_at')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->primary('id');

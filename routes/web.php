@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth'], function(){
 	// Route::get('/detail/{id}/editcomment','CommentController@store')->name('editcomment');
 	// Route::put('/detail/{id}/editcomment','CommentController@store')->name('updatecomment');
 	// Route::delete('/detail/{id}/deletecomment','CommentController@destroy')->name('deletecomment');
+
+	Route::post('/vote/{id}', 'VoteController@save_vote');
+
 });
 
 Auth::routes();

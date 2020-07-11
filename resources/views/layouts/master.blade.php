@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token"  content="{{ csrf_token() }}">
 
   <title>StackOverLoad</title>
 
@@ -92,7 +93,12 @@
 
   <!-- script tambahan sweet alert, bukan dari bawaan sb-admin-2 -->
   
-  <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+  {{-- <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script> --}}
+  <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+  <link href="{{ asset('ckeditor/plugins/codesnippet/lib/highlight/styles/default.css') }}" rel="stylesheet">
+
+  <script src="{{ asset('ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
   <script>
     var options = {
       filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',

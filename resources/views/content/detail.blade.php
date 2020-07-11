@@ -1,6 +1,19 @@
 @extends('layouts.master')
 
 @section('content')
+<style>
+  p{
+    font-size: 14px;
+    color: #000;
+    font-weight: 400!important;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  hr{
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+</style>
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <div class="row">
@@ -32,24 +45,29 @@
               <h4 style="color: blue;"><b>{{ $p->title }}</b></h4>
               <hr>
                 <div class="row">
-                  <div class="col-md-1" style="text-align: center;">
+                  <div class="col-md-1 text-center">
                     <div class="row">
                       <div class="col-md-12">
-                        <button type="sumbit" class="btn shadow-none" value="edit">
-                          <a class="arr" href="#"><i class="fas fa-arrow-up"></i></a>
-                        </button>
+                        @if ($p->user_vote == 'upvote')
+                          <a class="arr" href="" style="color:#e74a3b;" onclick="act_vote('{{$p->id}}',1, {{Auth::id()}})"><i class="fas fa-arrow-up"></i></a>
+                        @else
+                        <a class="arr" href="" onclick="act_vote('{{$p->id}}',1, {{Auth::id()}})"><i class="fas fa-arrow-up"></i></a>
+                        @endif
+                        
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        0
+                        {{ $p->jml_vote }}
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <button type="sumbit" class="btn shadow-none" value="edit">
-                          <a class="arr" href="#"><i class="fas fa-arrow-down"></i></a>
-                        </button>
+                        @if ($p->user_vote == 'downvote')
+                          <a class="arr" href="" style="color:#e74a3b;" onclick="act_vote('{{$p->id}}',0, {{Auth::id()}})"><i class="fas fa-arrow-down"></i></a>
+                        @else
+                          <a class="arr" href=""  onclick="act_vote('{{$p->id}}',0, {{Auth::id()}})"><i class="fas fa-arrow-down"></i></a>
+                        @endif
                       </div>
                     </div>
                   </div>
@@ -57,21 +75,26 @@
                   <div class="col-md-11">
                     <div class="row">
                       <div class="col-md-12">
-                        <h5 class="black"><strong>{!! $p->content !!}</strong></h5>
+                        {!! $p->content !!}
                       </div>
                     </div>
 
                       @foreach($p->komentar as $comment)
                         <div class="row">
                           <div class="col-md-12" style="text-align: justify;">
-                            <p class="size"><em>{{ $comment }}</em></p>
+                            <p>{{ $comment }}</p>
                             <hr>
                           </div>
                         </div>
                       @endforeach
                     <div class="row">
                       <div class="col-md-12">
-                        <a href="#" class="tags" title rel="tag">{{ $p->tag}}</a>
+                        <?php
+                          $tags = explode(" ",$p->tag);
+                          foreach ($tags as $tag) {
+                            echo '<a href="#" class="tags" title rel="tag">'.$tag.'</a>';
+                          }
+                        ?>
                       </div>
                     </div>
                     <div class="row">
@@ -99,9 +122,7 @@
                   <div class="col-md-1" style="text-align: center;">
                     <div class="row">
                       <div class="col-md-12">
-                        <button type="sumbit" class="btn shadow-none" value="edit">
-                          <a class="arr" href="#"><i class="fas fa-arrow-up"></i></a>
-                        </button>
+                        <a class="arr" href="#"><i class="fas fa-arrow-up"></i></a>
                       </div>
                     </div>
                     <div class="row">
@@ -111,9 +132,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <button type="sumbit" class="btn shadow-none" value="edit">
-                          <a class="arr" href="#"><i class="fas fa-arrow-down"></i></a>
-                        </button>
+                        <a class="arr" href="#"><i class="fas fa-arrow-down"></i></a>
                       </div>
                     </div>
                   </div>
@@ -148,3 +167,24 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
+@push('scripts')
+    <script>
+      function act_vote(id, param){
+        //event.preventDefault();
+        $.ajax({
+          headers: {
+            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+          },
+          url: "/vote/"+id,
+          type: "POST",
+          data: {votes: param},
+          dataType: "JSON",
+          success: function(data){
+            console.log(data);
+            location.reload();
+          }
+        });
+      }
+    </script>
+@endpush
+

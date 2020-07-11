@@ -9,11 +9,16 @@ use App\Comment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
-
+date_default_timezone_set("Asia/Bangkok");
 class QuestionController extends Controller
 {
     public function detail($id){
-        $data = DB::table('questions')->where('id',$id)->get();
+        $data = DB::table('questions as A')
+        ->select(DB::raw("A.*,  
+        (SELECT COUNT(*) FROM votes WHERE parent_id=A.id AND votes=1)-
+        (SELECT COUNT(*) FROM votes WHERE parent_id=A.id AND votes=0) as jml_vote,
+        (SELECT case when votes=1 then 'upvote' else 'downvote' end FROM votes WHERE parent_id=A.id AND user_id=1) as user_vote"))
+        ->where('id',$id)->get();
         foreach ($data as $key => $value) {
             $comment = comment::comments($value->id);
             foreach ($comment as $key_comment => $value_comment) {
@@ -23,6 +28,7 @@ class QuestionController extends Controller
                 $value->komentar[0] = " ";
             }
         }
+        // dd($data);
         return view('content.detail',compact('data'));
     }
 

@@ -1,6 +1,17 @@
 @extends('layouts.master')
 
 @section('content')
+<style>
+  p{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  pre {
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: auto;
+  }
+</style>
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <div class="row">
@@ -16,7 +27,7 @@
         <div class="card-header py-3">
             <div class="row">
                 <div class="col-lg-8 mt-2">
-                    <h6 class="m-0 font-weight-bold text-primary">All Questions</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">All Questions <span style="color:#000"> {{number_format($data->total())}} questions</span></h6>
                 </div>
                 <div class="col-lg-4">
                   <button class="btn btn-primary btn-sm float-right" id="btn_question"><i class="fas fa-sm fa-question"></i> Ask Question</button>
@@ -47,11 +58,14 @@
                     @endif
                     
                   <br>
-                  {!!\Illuminate\Support\Str::words($row->content, $words = 50, $end = ' [...] ')!!}<br>
+                  <div>
+                  {!!\Illuminate\Support\Str::words($row->content, $words = 30, $end = ' [...] ')!!}
+                  </div>
+                  
                   <?PHP
                     $tags = explode(" ",$row->tag);
                     foreach ($tags as $tag) {
-                      echo '<button style="    margin-right: 5px;" class="btn btn-sm btn-info">'.$tag.'</button>';
+                      echo '<a href="#" class="tags" title rel="tag">'.$tag.'</a>';
                     }
                   ?>
                   
@@ -61,16 +75,9 @@
                
             <tbody>
           </table>
-          {{-- <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-end" style="margin-right: 20px!important;">
-              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav> --}}
+          
           {{$data->links()}}
+          
         </div>
       </div>
     </div>
@@ -137,7 +144,7 @@
       tye: 'GET',
       success: function(data){
         data = $.parseJSON(data);
-        console.log(data);
+        //console.log(data);
         $("[name='title']").val(data['title']);
         // $("[name='content']").val(data['content']);
         CKEDITOR.instances['contents'].setData(data['content']);
