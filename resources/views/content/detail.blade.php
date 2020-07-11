@@ -159,7 +159,21 @@
             </div>
           </div>
           {{-- /end answer --}}
-          
+          <br>
+          <br>
+
+          <form method="post" id="" action="saveanswer">
+          @csrf
+          <h2>Your Answer</h2>
+          <textarea name="createanswer" id="createanswer"></textarea>
+          @push('scripts')
+          <script>CKEDITOR.replace('createanswer');
+          </script>
+          @endpush
+          <br>
+          <button type="submit" class="btn btn-primary btn-sm float-left">Post Your Answer</button>
+          </form>
+
         </div>
       </div>
     </div>
