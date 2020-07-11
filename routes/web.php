@@ -39,15 +39,14 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::delete('/detail/{id}/deleteanswer','AnswerController@destroy')->name('deleteanswer');
 
 	// comment
-	Route::post('/detail/{id}','CommentController@store')->name('savecomment');
+	Route::get('/detail/{id}/comment','CommentController@index')->name('createcomment');
+	Route::post('/detail/{id}/comment','CommentController@store')->name('savecomment');
 	// Route::get('/detail/{id}/editcomment','CommentController@store')->name('editcomment');
 	// Route::put('/detail/{id}/editcomment','CommentController@store')->name('updatecomment');
 	// Route::delete('/detail/{id}/deletecomment','CommentController@destroy')->name('deletecomment');
 });
 
 Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 	\UniSharp\LaravelFilemanager\Lfm::routes();

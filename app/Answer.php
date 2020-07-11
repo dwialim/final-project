@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-class AnswerModel
+class Answer extends Model
 {
     protected $table = 'answers';
     public static function save($data, $user_id, $questid) {

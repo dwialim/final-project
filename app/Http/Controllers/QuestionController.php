@@ -4,15 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Models\QuestionModel;
+use App\Question;
+use App\Comment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class QuestionController extends Controller
 {
+    public function detail($id){
+        $data = DB::table('questions')->where('id',$id)->get();
+        foreach ($data as $key => $value) {
+            $comment = comment::comments($value->id);
+            foreach ($comment as $key_comment => $value_comment) {
+                $value->komentar[$key_comment] = $value_comment->content;
+            }
+            if (!isset($value->komentar)) {
+                $value->komentar[0] = " ";
+            }
+        }
+        return view('content.detail',compact('data'));
+    }
 
     public function index(){
-        $data = QuestionModel::get_all();
+        $data = Question::get_all();
         return view('content.index', compact('data'));
     }
 
@@ -22,7 +37,7 @@ class QuestionController extends Controller
     	$request->request->add(["user_id"=>$user_id,"created_at"=> Carbon::now(),"updated_at"=> Carbon::now()]);
         $params = $request->all();
         unset($params['_token']);
-        $data = QuestionModel::save_data($params);
+        $data = Question::save_data($params);
         if($data){
             Alert::success('Your Question Has Been Posted', 'Success');
             return redirect('/stacloverload/quest');
@@ -34,7 +49,7 @@ class QuestionController extends Controller
     }
 
     public function delete_data($id){
-    	$data = QuestionModel::delete_data($id);
+    	$data = Question::delete_data($id);
         if($data){
             Alert::success('Your Question Has Been Deleted', 'Success');
             return redirect('/stacloverload');
@@ -45,7 +60,7 @@ class QuestionController extends Controller
     }
 
     public function get_by_id($id){
-        $data = QuestionModel::get_by_id($id);
+        $data = Question::get_by_id($id);
 
         return json_encode($data);
     }
@@ -53,7 +68,7 @@ class QuestionController extends Controller
     public function update( $id, Request $request){
     	$request->request->add(["updated_at"=> Carbon::now()]);
         $params = $request->all();
-        $data = QuestionModel::update_data($id, $params);
+        $data = Question::update_data($id, $params);
         if($data){
             Alert::success('Your Question Has Been Updated', 'Success');
             return redirect('/stacloverload');
