@@ -17,9 +17,9 @@
   <div class="row">
     <div class="col-3">
       <ul class="list-group">
-        <li class="list-group-item"><a href="#" ><i class="fas fa-home"></i> Home</a></li>
+        <li class="list-group-item"><a href="/" ><i class="fas fa-home"></i> Home</a></li>
         <li class="list-group-item list-group-item-warning"><a href="#" ><i class="fas fa-tags"></i> Tags</a></li>
-        <li class="list-group-item list-group-item-warning"><a href="#" ><i class="fas fa-user"></i> User</a></li>
+        <li class="list-group-item list-group-item-warning"><a href="/user" ><i class="fas fa-user"></i> User</a></li>
       </ul>
     </div>
     <div class="col-9">

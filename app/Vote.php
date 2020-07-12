@@ -18,4 +18,9 @@ class Vote extends Model
         ]);
         return $data;
     }
+
+    public static function cek_vote($id,$user_id){
+        $cek = DB::table('votes')->select('votes')->where('parent_id',$id)->where('user_id',$user_id)->first();
+        return $cek;
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Question;
 use App\Comment;
+use App\Answer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -28,8 +29,19 @@ class QuestionController extends Controller
                 $value->komentar[0] = " ";
             }
         }
-        // dd($data);
-        return view('content.detail',compact('data'));
+
+        $answers = Answer::get_by_quest($id);
+        foreach ($answers as $key => $value) {
+            $comment = comment::comments($value->id);
+            foreach ($comment as $key_comment => $value_comment) {
+                $value->komentar2[$key_comment] = $value_comment->content;
+            }
+            if (!isset($value->komentar2)) {
+                $value->komentar2[0] = " ";
+            }
+        }
+        // dd($answers);
+        return view('content.detail',compact('data', 'answers'));
     }
 
     public function index(){

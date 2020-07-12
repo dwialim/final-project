@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 	// answer
 	Route::get('/detail/{id}/answer','AnswerController@index')->name('createanswer');
-	Route::post('/detail/{id}/answer','AnswerController@store')->name('saveanswer');
+	Route::post('/saveanswer/{id}','AnswerController@store')->name('saveanswer');
 	Route::get('/detail/{id}/editanswer','AnswerController@edit')->name('editanswer');
 	Route::put('/detail/{id}/editanswer','AnswerController@update')->name('updateanswer');
 	Route::delete('/detail/{id}/deleteanswer','AnswerController@destroy')->name('deleteanswer');
@@ -47,6 +47,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::post('/vote/{id}', 'VoteController@save_vote');
 
+
+	// User
+	Route::get('/user','UserController@index')->name('userdetail');
+
 });
 
 Auth::routes();
@@ -54,3 +58,4 @@ Auth::routes();
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 	\UniSharp\LaravelFilemanager\Lfm::routes();
 });
+

@@ -15,7 +15,7 @@ class CreateVotesTable extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->enum('votes',['upvote','downvote']);
+            $table->boolean('votes');
             $table->datetime('created_at')->nullable();
             $table->datetime('updated_at')->nullable();
             $table->string('parent_id');
